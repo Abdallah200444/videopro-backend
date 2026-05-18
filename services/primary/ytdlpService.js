@@ -63,8 +63,13 @@ async function getInfo(url) {
       '--socket-timeout', '20',
       '--retries', '3',
       '--extractor-args', 'youtube:player_client=android,web',
-      url,
     ];
+
+    if (fs.existsSync(path.join(__dirname, '../../cookies.txt'))) {
+      args.push('--cookies', path.join(__dirname, '../../cookies.txt'));
+    }
+
+    args.push(url);
 
     execFile(ytdlpCommand, args, { timeout: 60000 }, (err, stdout, stderr) => {
       if (err) {
@@ -125,8 +130,13 @@ async function download(url, formatId, res) {
       '-f', formatSelector,
       '--merge-output-format', isAudio ? 'mp3' : 'mp4',
       '-o', outPath,
-      url,
     ];
+
+    if (fs.existsSync(path.join(__dirname, '../../cookies.txt'))) {
+      args.push('--cookies', path.join(__dirname, '../../cookies.txt'));
+    }
+
+    args.push(url);
 
     if (isAudio) {
       args.push('--extract-audio', '--audio-format', 'mp3');

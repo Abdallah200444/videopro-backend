@@ -9,6 +9,16 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust proxy for Render/Heroku rate limiting
+app.set('trust proxy', 1);
+
+// Generate cookies.txt if provided in environment
+if (process.env.YOUTUBE_COOKIES) {
+  const cookiesContent = process.env.YOUTUBE_COOKIES.replace(/\\n/g, '\n');
+  fs.writeFileSync(path.join(__dirname, 'cookies.txt'), cookiesContent, 'utf8');
+  console.log('✅ Created cookies.txt from environment variable.');
+}
+
 // Ensure tmp directory exists
 const tmpDir = path.resolve(process.env.TEMP_DIR || './tmp');
 if (!fs.existsSync(tmpDir)) fs.mkdirSync(tmpDir, { recursive: true });
