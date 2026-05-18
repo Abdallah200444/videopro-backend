@@ -62,6 +62,7 @@ async function getInfo(url) {
       '--no-warnings',
       '--socket-timeout', '20',
       '--retries', '3',
+      '--extractor-args', 'youtube:player_client=android,web',
       url,
     ];
 
@@ -120,6 +121,7 @@ async function download(url, formatId, res) {
       '--no-warnings',
       '--socket-timeout', '20',
       '--retries', '3',
+      '--extractor-args', 'youtube:player_client=android,web',
       '-f', formatSelector,
       '--merge-output-format', isAudio ? 'mp3' : 'mp4',
       '-o', outPath,
